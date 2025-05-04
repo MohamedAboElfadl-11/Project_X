@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AuthService } from "../Services/auth.service";
 import { UserData } from "../Models/user.model";
 import jwt from 'jsonwebtoken'
-import { AppDataSource } from "../Config/db_connection.config";
 
 // login
 export const loginController = async (
