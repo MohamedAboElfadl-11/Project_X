@@ -1,25 +1,30 @@
 import { Router } from 'express';
-import {   genAccessTokenControlle, getMyProfile, loginController, signupController } from '../Controllers/auth.controller';
+import * as authController from '../Controllers/auth.controller';
 import { errorHandler } from '../Middlewares/error_handler.maddlware';
 import authenticationMiddlware from '../Middlewares/authentication.middlware';
 
 const authRouters = Router();
 
 authRouters.post('/login',
-    errorHandler(loginController)
+    errorHandler(authController.loginController)
 );
 
 authRouters.post('/signup',
-    errorHandler(signupController)
+    errorHandler(authController.signupController)
 );
 
 authRouters.get('/me',
     errorHandler(authenticationMiddlware()),
-    errorHandler(getMyProfile)
+    errorHandler(authController.getMyProfile)
 )
 
 authRouters.get('/accesstoken',
-    errorHandler(genAccessTokenControlle)
+    errorHandler(authController.genAccessTokenControlle)
+)
+
+authRouters.put('/changePassword',
+    errorHandler(authenticationMiddlware()),
+    errorHandler(authController.changePasswordController)
 )
 
 export default authRouters;

@@ -82,7 +82,28 @@ export class AuthService {
         message: "Something went wrong during signup",
         error: error.message || error,
       };
-      
+
     }
+  }
+  static async changePasswordService(oldPassword: string, newPassword: string, user: UserData) {
+    const userRepo = AppDataSource.getRepository(UserData);
+
+    const isMatch = await comparing(oldPassword, user.userPwd);
+
+    if (!isMatch) return {
+      statusCode: 401,
+      message: 'password is not correct'
+    }
+
+    const salt = process.env.SALT ? Number(process.env.SALT) : 10;
+    const hashedPassword = hashing(newPassword, salt);
+
+    user.userPwd = hashedPassword;
+    await userRepo.save(user);
+
+    return {
+      statusCode: 200,
+      message: "Password changed successfully",
+    };
   }
 }

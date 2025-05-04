@@ -13,10 +13,10 @@ export class UserData {
   userDbname!: string | null;
 
   @Column({ name: 'USER_NAME', type: 'varchar2', length: 100, nullable: true })
-  userName!: string | null;
+  userName!: string ;
 
   @Column({ name: 'USER_PWD', type: 'varchar2', length: 100, nullable: true })
-  userPwd!: string | null;
+  userPwd!: string;
 
   @Column({ name: 'USERCLASS_CODE', type: 'number', nullable: true })
   userclassCode!: number | null;

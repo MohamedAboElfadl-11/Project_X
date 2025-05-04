@@ -4,10 +4,7 @@ import { UserData } from "../Models/user.model";
 import jwt from 'jsonwebtoken'
 
 // login
-export const loginController = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const loginController = async (req: Request, res: Response): Promise<Response> => {
   const { userName, password } = req.body;
 
   const user = await AuthService.login(userName, password);
@@ -16,10 +13,7 @@ export const loginController = async (
 };
 
 // signup
-export const signupController = async (
-  req: Request,
-  res: Response
-): Promise<Response | void> => {
+export const signupController = async (req: Request, res: Response): Promise<Response | void> => {
   const { userName, password } = req.body;
 
   const user = await AuthService.signup(userName, password);
@@ -27,7 +21,7 @@ export const signupController = async (
 };
 
 // get login user data
-export const getMyProfile = async (req: Request, res: Response) => {
+export const getMyProfile = async (req: Request, res: Response): Promise<Response | void> => {
   const user = req.user as UserData;
 
   if (!user) {
@@ -44,7 +38,7 @@ export const getMyProfile = async (req: Request, res: Response) => {
 };
 
 // generate access token from refresh token
-export const genAccessTokenControlle = async (req: Request, res: Response) => {
+export const genAccessTokenControlle = async (req: Request, res: Response): Promise<Response | void> => {
   const { refreshtoken } = req.headers;
 
   if (!refreshtoken) return res.status(400).json({ message: 'refresh token is required' });
@@ -57,6 +51,17 @@ export const genAccessTokenControlle = async (req: Request, res: Response) => {
 
   const accesstoken = jwt.sign(decoded, process.env.ACCESS_TOKEN as string);
 
-  res.status(200).json({accesstoken});
+  res.status(200).json({ accesstoken });
 
 }
+
+// change password
+export const changePasswordController = async (req: Request, res: Response): Promise<Response | void> => {
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword || !newPassword) return res.status(400).json({ message: 'old and new password ar required ' })
+
+  const result = await AuthService.changePasswordService(oldPassword, newPassword, req.user!);
+
+  res.status(result.statusCode).json({message:result.message});
+};
