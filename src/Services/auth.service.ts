@@ -6,7 +6,7 @@ import { genAccessToken, genRefreshToken } from "../Utils/genTokens.utils";
 
 export class AuthService {
   // Login service
-  static async login(userName: string, password: string) {
+  static async loginService(userName: string, password: string) {
     const userRepo = AppDataSource.getRepository(UserData);
 
     userName = userName.toLowerCase();
@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   // Signup service
-  static async signup(userName: string, password: string) {
+  static async signupService(userName: string, password: string) {
     const userRepo = AppDataSource.getRepository(UserData);
 
     const salt = process.env.SALT ? Number(process.env.SALT) : 10;

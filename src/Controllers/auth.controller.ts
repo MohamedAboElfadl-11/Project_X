@@ -7,16 +7,16 @@ import jwt from 'jsonwebtoken'
 export const loginController = async (req: Request, res: Response): Promise<Response> => {
   const { userName, password } = req.body;
 
-  const user = await AuthService.login(userName, password);
+  const user = await AuthService.loginService(userName, password);
 
   return res.status(user.statusCode || 200).json(user);
 };
 
 // signup
-export const signupController = async (req: Request, res: Response): Promise<Response | void> => {
+export const signupController = async (req: Request, res: Response) => {
   const { userName, password } = req.body;
 
-  const user = await AuthService.signup(userName, password);
+  const user = await AuthService.signupService(userName, password);
   res.status(user.statusCode || 200).json(user);
 };
 
@@ -63,5 +63,5 @@ export const changePasswordController = async (req: Request, res: Response): Pro
 
   const result = await AuthService.changePasswordService(oldPassword, newPassword, req.user!);
 
-  res.status(result.statusCode).json({message:result.message});
+  res.status(result.statusCode).json({ message: result.message });
 };
