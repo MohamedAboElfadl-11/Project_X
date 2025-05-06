@@ -1,6 +1,7 @@
+import { FindOptionsWhere } from "typeorm";
 import { AppDataSource } from "../Config/db_connection.config";
-import { UserData } from "../Models/user.model";
-import { IError } from "../Types/types";
+import { EmpData } from "../Models/EMP_DATA.model";
+import { UserData } from "../Models/USER_DATA.model";
 import { comparing, hashing } from "../Utils/bcrypt.utils";
 import { genAccessToken, genRefreshToken } from "../Utils/genTokens.utils";
 
@@ -47,44 +48,52 @@ export class AuthService {
   }
 
   // Signup service
-  static async signupService(userName: string, password: string) {
-    const userRepo = AppDataSource.getRepository(UserData);
+  static async signupService(nationalID: string, password: string) {
+    // const empRepo = AppDataSource.getRepository(EmpData);
+    // const userRepo = AppDataSource.getRepository(UserData);
 
-    const salt = process.env.SALT ? Number(process.env.SALT) : 10;
-    const hashedPassword = hashing(password, salt);
+    // const isNID = await empRepo.findOneBy({ nid: Number(nationalID) });
 
-    const newUser = userRepo.create({
-      userName,
-      userPwd: hashedPassword,
-    });
+    // if (!isNID) {
+    //   return {
+    //     statusCode: 404,
+    //     message: 'This emplyee is not registed',
+    //   };
+    // }
 
-    try {
-      const user = await userRepo.save(newUser);
+    // const isUser = await userRepo.findOne({
+    //   where: {
+    //     empData: { appId: isNID.appId }, 
+    //   } as FindOptionsWhere<UserData>, 
+    //   relations: ['empData'],
+    // });
 
-      return {
-        statusCode: 201,
-        message: "Account created successfully",
-        data: {
-          userId: user.userId,
-          userName: user.userName,
-        },
-      };
-    } catch (error: IError | any) {
-      if (error?.code === "ORA-00001") {
-        return {
-          statusCode: 409,
-          message: "This username is already taken",
-        };
-      }
+    // if (isUser) {
+    //   return {
+    //     statusCode: 409,
+    //     message: 'emplyee already registed',
+    //   };
+    // }
 
-      return {
-        statusCode: 500,
-        message: "Something went wrong during signup",
-        error: error.message || error,
-      };
+    // const salt = process.env.SALT ? Number(process.env.SALT) : 10;
+    // const hashedPassword = hashing(password, salt);
 
-    }
+    // const newUser = userRepo.create({
+    //   userName: String(isNID.nid), 
+    //   userPwd: hashedPassword,
+    //   activeFrom: new Date(),
+    //   empData: isNID,
+    //   appId: 1
+    // });
+
+    // await userRepo.save(newUser);
+
+    // return {
+    //   statusCode: 201,
+    //   message: 'emplyee registed successfully',
+    // };
   }
+
   static async changePasswordService(oldPassword: string, newPassword: string, user: UserData) {
     const userRepo = AppDataSource.getRepository(UserData);
 

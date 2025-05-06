@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AuthService } from "../Services/auth.service";
-import { UserData } from "../Models/user.model";
+import { UserData } from "../Models/USER_DATA.model";
 import jwt from 'jsonwebtoken'
 
 // login
@@ -14,9 +14,9 @@ export const loginController = async (req: Request, res: Response): Promise<Resp
 
 // signup
 export const signupController = async (req: Request, res: Response) => {
-  const { userName, password } = req.body;
+  const { nationalID, password } = req.body;
 
-  const user = await AuthService.signupService(userName, password);
+  const user = await AuthService.signupService(nationalID, password);
   res.status(user.statusCode || 200).json(user);
 };
 

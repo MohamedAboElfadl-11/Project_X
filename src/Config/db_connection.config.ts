@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
-import { UserData } from '../Models/user.model';
+import { UserData } from '../Models/USER_DATA.model';
+import { EmpData } from '../Models/EMP_DATA.model';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
   serviceName: 'orcl',
   synchronize: false,
   logging: false,
-  entities: [UserData],
+  entities: [UserData, EmpData],
   migrations: [],
   subscribers: [],
 });

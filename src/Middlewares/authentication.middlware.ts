@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken'
 import { AppDataSource } from "../Config/db_connection.config";
-import { UserData } from "../Models/user.model";
+import { UserData } from "../Models/USER_DATA.model";
 import { ITokenPayload } from "../Types/types";
 
 const authenticationMiddlware = () => {

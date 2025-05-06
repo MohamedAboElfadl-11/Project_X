@@ -13,7 +13,7 @@ authRouters.post('/login',
 );
 
 authRouters.post('/signup',
-    validationMiddleware(validation.signupSchema),
+    // validationMiddleware(validation.signupSchema),
     errorHandler(authController.signupController)
 );
 

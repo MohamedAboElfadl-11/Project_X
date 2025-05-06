@@ -1,4 +1,4 @@
-import { UserData } from "../Models/user.model";
+import { UserData } from "../Models/USER_DATA.model";
 
 export interface IError {
     message: string,

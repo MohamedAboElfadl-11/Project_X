@@ -1,7 +1,7 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { EmpData } from './EMP_DATA.model';
 
 @Entity('PPO.USER_DATA')
-
 export class UserData {
   @PrimaryColumn({ name: 'USER_ID', type: 'number' })
   userId!: number;
@@ -13,7 +13,7 @@ export class UserData {
   userDbname!: string | null;
 
   @Column({ name: 'USER_NAME', type: 'varchar2', length: 100, nullable: true })
-  userName!: string ;
+  userName!: string;
 
   @Column({ name: 'USER_PWD', type: 'varchar2', length: 100, nullable: true })
   userPwd!: string;
@@ -41,4 +41,9 @@ export class UserData {
 
   @Column({ name: 'MODIFIED_DATE', type: 'date', nullable: true })
   modifiedDate!: Date | null;
+
+  // 👇 العلاقة مع EMP_DATA
+  @ManyToOne(() => EmpData)
+  @JoinColumn({ name: 'APP_ID', referencedColumnName: 'appId' }) // اسم العمود في الجداول
+  empData!: EmpData;
 }
